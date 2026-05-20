@@ -1,0 +1,114 @@
+﻿@{
+    ViewData["Title"] = "Portfolyo";
+}
+
+<style>
+    .portfolio-card {
+        background: white;
+        border: none;
+        border-radius: 15px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        margin-bottom: 25px;
+        overflow: hidden;
+    }
+
+        .portfolio-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+    body.dark-mode .portfolio-card {
+        background: #1e1e1e !important;
+        color: white !important;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+    }
+
+    .project-badge {
+        background-color: #6a11cb;
+        color: white;
+        padding: 5px 12px;
+        border-radius: 20px;
+        font-size: 12px;
+        display: inline-block;
+        margin-bottom: 10px;
+    }
+
+    body.dark-mode .project-badge {
+        background-color: #b175ff;
+    }
+</style>
+
+<div class="container mt-4">
+    <div class="text-center mb-5">
+        <h2 class="fw-bold text-dark">🚀 Geliştirdiğim Diğer Projeler (Portfolyo)</h2>
+        <p class="text-muted">Bu zamana kadar .NET Core, Web ve Veritabanı teknolojileriyle hazırladığım 5 farklı çalışma.</p>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 col-lg-4">
+            <div class="card h-100 p-4 portfolio-card d-flex flex-column">
+                <div>
+                    <span class="project-badge">kanban</span>
+                    <h4 class="fw-bold mb-2">kanban</h4>
+                    <p class="text-muted small">C# ve MS SQL tabanlı, kanban.</p>
+                </div>
+                <div class="mt-auto pt-3 border-top">
+                    <a href="https://github.com/kerembozoglu69-ai/kanban.git" target="_blank" class="btn btn-outline-primary btn-sm w-100 fw-bold">Projeyi İncele &rarr;</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4">
+            <div class="card h-100 p-4 portfolio-card d-flex flex-column">
+                <div>
+                    <span class="project-badge">gidertakipp / İçerik</span>
+                    <h4 class="fw-bold mb-2">CodeBlog - gidertakip</h4>
+                    <p class="text-muted small">ASP.NET Core MVC mimarisiyle geliştirilmiş, kullanıcıların giderleirni giridği.</p>
+                </div>
+                <div class="mt-auto pt-3 border-top">
+                    <a href="https://github.com/kerembozoglu69-ai/gidertakipp.git" target="_blank" class="btn btn-outline-primary btn-sm w-100 fw-bold">Projeyi İncele &rarr;</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4">
+            <div class="card h-100 p-4 portfolio-card d-flex flex-column">
+                <div>
+                    <span class="project-badge">qrsistem</span>
+                    <h4 class="fw-bold mb-2">qr sistem</h4>
+                    <p class="text-muted small">qr şelide odeme .</p>
+                </div>
+                <div class="mt-auto pt-3 border-top">
+                    <a href="https://localhost:7077/" target="_blank" class="btn btn-outline-primary btn-sm w-100 fw-bold">Projeyi İncele &rarr;</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4">
+            <div class="card h-100 p-4 portfolio-card d-flex flex-column">
+                <div>
+                    <span class="project-badge">API / soru cevap</span>
+                    <h4 class="fw-bold mb-2">sroucevap </h4>
+                    <p class="text-muted small">srou ve cevap olutluran  web uygulaması.</p>
+                </div>
+                <div class="mt-auto pt-3 border-top">
+                    <a href="https://github.com/kerembozoglu69-ai/SoruCevap-forum-.git" target="_blank" class="btn btn-outline-primary btn-sm w-100 fw-bold">Projeyi İncele &rarr;</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4">
+            <div class="card h-100 p-4 portfolio-card d-flex flex-column">
+                <div>
+                    <span class="project-badge">kurs sertifikas</span>
+                    <h4 class="fw-bold mb-2">sertifika</h4>
+                    <p class="text-muted small">ücretiz kurs sertiifkası.</p>
+                </div>
+                <div class="mt-auto pt-3 border-top">
+                    <a href="https://github.com/kerembozoglu69-ai/KursSertifikaY-netimi.git" target="_blank" class="btn btn-outline-primary btn-sm w-100 fw-bold">Projeyi İncele &rarr;</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

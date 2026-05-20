@@ -1,0 +1,114 @@
+﻿@{
+    ViewData["Title"] = "Randevu Takvimi";
+}
+
+<div class="container mt-4">
+    <h2 class="text-center mb-4 fw-bold text-dark">✂️ Kuaför Randevu Takvimi</h2>
+    <p class="text-muted text-center">Randevu almak istediğiniz boş gün ve saate tıklayın.</p>
+
+    <!-- Takvimin Geleceği Alan -->
+    <div class="card shadow p-3 bg-white rounded">
+        <div id="calendar"></div>
+    </div>
+</div>
+
+<!-- Randevu Ekleme Modalı (Popup Pencere) -->
+<div class="modal fade" id="randevuModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title">Yeni Randevu Oluştur</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="secilenTarih" />
+                <div class="mb-3">
+                    <label class="form-label">Müşteri Adı Soyadı</label>
+                    <input type="text" id="txtMusteriAd" class="form-control" required placeholder="Ahmet Yılmaz">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Telefon Numarası</label>
+                    <input type="text" id="txtTelefon" class="form-control" required placeholder="0555 XXXXXXX">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Notlar (İstenen İşlem)</label>
+                    <textarea id="txtNotlar" class="form-control" rows="2" placeholder="Saç kesimi, boya vb."></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                <button type="button" id="btnKaydet" class="btn btn-success">Randevuyu Onayla</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <!-- FullCalendar CSS ve JS CDN Bağlantıları -->
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/locales/tr.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var calendarEl = document.getElementById('calendar');
+
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'timeGridWeek', // Haftalık saatlik görünüm (Kuaförler için en iyisi)
+                locale: 'tr', // Türkçe yaptık
+                slotMinTime: '09:00:00', // Kuaför açılış saati
+                slotMaxTime: '20:00:00', // Kuaför kapanış saati
+                allDaySlot: false,
+                height: 'auto',
+                events: '/Randevu/GetRandevular', // Dolu randevuları çeken URL
+
+                // Takvimde boş bir saate tıklandığında çalışacak alan
+                selectable: true,
+                select: function(info) {
+                    // Seçilen saati inputa gizlice yazıyoruz
+                    document.getElementById('secilenTarih').value = info.startStr;
+
+                    // Modalı (popup) aç
+                    var myModal = new bootstrap.Modal(document.getElementById('randevuModal'));
+                    myModal.show();
+                }
+            });
+
+            calendar.render();
+
+            // Kaydet butonuna basıldığında Ajax ile veritabanına gönderme
+            document.getElementById('btnKaydet').addEventListener('click', function() {
+                var ad = document.getElementById('txtMusteriAd').value;
+                var tel = document.getElementById('txtTelefon').value;
+                var tarih = document.getElementById('secilenTarih').value;
+                var not = document.getElementById('txtNotlar').value;
+
+                if(!ad || !tel) {
+                    alert("Lütfen ad ve telefon alanlarını doldurun!");
+                    return;
+                }
+
+                // FormData hazırlayıp Controller'a postalıyoruz
+                var formData = new FormData();
+                formData.append("musteriAd", ad);
+                formData.append("telefon", tel);
+                formData.append("baslangic", tarih);
+                formData.append("notlar", not);
+
+                fetch('/Randevu/RandevuAl', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if(data.success) {
+                        alert(data.message);
+                        location.reload(); // Sayfayı yenile ki takvim güncellensin
+                    } else {
+                        alert(data.message);
+                    }
+                });
+            });
+        });
+    </script>
+}

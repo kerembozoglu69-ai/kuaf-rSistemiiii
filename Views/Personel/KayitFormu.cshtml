@@ -1,0 +1,378 @@
+﻿@{
+    ViewData["Title"] = "Personel Kayıt Formu";
+}
+
+<style>
+    .form-container {
+        max-width: 700px;
+        margin: 30px auto;
+        background: var(--card-bg, #ffffff);
+        padding: 30px;
+        border-radius: 8px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        border: 1px solid var(--border-color, #cccccc);
+    }
+
+    h2 {
+        text-align: center;
+        margin-bottom: 25px;
+    }
+
+    .form-row {
+        display: flex;
+        gap: 20px;
+        margin-bottom: 15px;
+    }
+
+    .form-group {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 15px;
+    }
+
+        .form-group label {
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        .form-group input, .form-group select, .form-group textarea {
+            padding: 10px;
+            border: 1px solid var(--border-color, #cccccc);
+            border-radius: 4px;
+            background-color: var(--card-bg, #ffffff);
+            color: var(--text-color, #333333);
+        }
+
+    .required {
+        color: red;
+    }
+
+    .checkbox-group {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        border: 1px solid var(--border-color, #cccccc);
+        padding: 15px;
+        border-radius: 4px;
+    }
+
+    .note-box {
+        background-color: rgba(255, 193, 7, 0.15);
+        border-left: 5px solid #ffc107;
+        padding: 12px;
+        margin-top: 20px;
+        border-radius: 4px;
+        font-weight: bold;
+    }
+
+    .form-buttons {
+        display: flex;
+        gap: 15px;
+        margin-top: 20px;
+    }
+
+    .btn {
+        flex: 1;
+        padding: 12px;
+        border: none;
+        border-radius: 4px;
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+        font-weight: bold;
+    }
+
+    .btn-save {
+        background-color: #28a745;
+    }
+
+    .btn-clear {
+        background-color: #6c757d;
+    }
+
+    .error-msg {
+        color: #dc3545;
+        font-size: 13px;
+        margin-top: 4px;
+        font-weight: 500;
+        display: none;
+    }
+</style>
+
+<div class="form-container">
+    <h2>Personel Kayıt Formu</h2>
+
+    @if (ViewBag.Mesaj != null)
+    {
+        <div class="alert alert-success">
+            @ViewBag.Mesaj
+        </div>
+    }
+
+    <form id="personelForm" asp-controller="Personel" asp-action="KayitFormu" method="post" enctype="multipart/form-data">
+
+        <div class="form-row">
+            <div class="form-group">
+                <label>Ad <span class="required">*</span></label>
+                <input type="text" id="ad" name="Ad" />
+                <span class="error-msg" id="err-ad">Ad alanı zorunludur.</span>
+            </div>
+            <div class="form-group">
+                <label>Soyad <span class="required">*</span></label>
+                <input type="text" id="soyad" name="Soyad" />
+                <span class="error-msg" id="err-soyad">Soyad alanı zorunludur.</span>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label>E-Posta <span class="required">*</span></label>
+                <input type="email" id="email" name="Email" />
+                <span class="error-msg" id="err-email">Geçerli bir e-posta adresi giriniz.</span>
+            </div>
+            <div class="form-group">
+                <label>Telefon <span class="required">*</span></label>
+                <input type="text" id="telefon" name="Telefon" placeholder="Sadece sayı giriniz" />
+                <span class="error-msg" id="err-telefon">Telefon alanı sadece sayı olmalıdır ve boş bırakılamaz.</span>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label>Şifre <span class="required">*</span></label>
+                <input type="password" id="sifre" name="Sifre" value="" />
+                <span class="error-msg" id="err-sifre">Şifre en az 6 karakter olmalıdır!</span>
+            </div>
+            <div class="form-group">
+                <label>Şifre Tekrar <span class="required">*</span></label>
+                <input type="password" id="sifreTekrar" value="" />
+                <span class="error-msg" id="err-sifreTekrar">Şifreler birbiriyle eşleşmiyor!</span>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label>Doğum Tarihi <span class="required">*</span></label>
+                <input type="date" id="dogumTarihi" name="DogumTarihi" />
+                <span class="error-msg" id="err-dogumTarihi">Gelecek bir tarih seçilemez!</span>
+            </div>
+            <div class="form-group">
+                <label>İşe Giriş Tarihi <span class="required">*</span></label>
+                <input type="date" id="iseGirisTarihi" name="IseGirisTarihi" />
+                <span class="error-msg" id="err-iseGirisTarihi">Gelecek bir tarih seçilemez!</span>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label>Cinsiyet <span class="required">*</span></label>
+                <select id="cinsiyet" name="Cinsiyet">
+                    <option value="">Seçiniz</option>
+                    <option value="Kadın">Kadın</option>
+                    <option value="Erkek">Erkek</option>
+                </select>
+                <span class="error-msg" id="err-cinsiyet">Cinsiyet seçimi zorunludur.</span>
+            </div>
+            <div class="form-group">
+                <label>Medeni Durum <span class="required">*</span></label>
+                <select id="medeniDurum" name="MedeniDurum">
+                    <option value="">Seçiniz</option>
+                    <option value="Bekar">Bekar</option>
+                    <option value="Evli">Evli</option>
+                </select>
+                <span class="error-msg" id="err-medeniDurum">Medeni durum seçimi zorunludur.</span>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label>Şehir <span class="required">*</span></label>
+                <select id="sehir" name="Sehir">
+                    <option value="">Şehir Seçiniz</option>
+                    <option value="İstanbul">İstanbul</option>
+                    <option value="Ankara">Ankara</option>
+                    <option value="İzmir">İzmir</option>
+                    <option value="Tekirdağ">Tekirdağ</option>
+                </select>
+                <span class="error-msg" id="err-sehir">Şehir seçilmeden kayıt yapılamaz!</span>
+            </div>
+            <div class="form-group">
+                <label>Maaş <span class="required">*</span></label>
+                <input type="number" id="maas" name="Maas" min="0" value="0" />
+                <span class="error-msg" id="err-maas">Maaş zorunludur ve negatif (eksi) girilemez!</span>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label>Departman <span class="required">*</span></label>
+                <input type="text" id="departman" name="Departman" />
+                <span class="error-msg" id="err-departman">Departman alanı zorunludur.</span>
+            </div>
+            <div class="form-group">
+                <label>Pozisyon <span class="required">*</span></label>
+                <input type="text" id="pozisyon" name="Pozisyon" />
+                <span class="error-msg" id="err-pozisyon">Pozisyon alanı zorunludur.</span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Çalısma Şekli <span class="required">*</span></label>
+            <select id="calismaSekli" name="CalismaSekli">
+                <option value="">Seçiniz</option>
+                <option value="Tam Zamanlı">Tam Zamanlı</option>
+                <option value="Yarı Zamanlı">Yarı Zamanlı</option>
+            </select>
+            <span class="error-msg" id="err-calismaSekli">Çalışma şekli seçimi zorunludur.</span>
+        </div>
+
+        <div class="form-group">
+            <label>Hobiler <span class="required">*</span></label>
+            <div class="checkbox-group" id="hobilerGroup">
+                <label><input type="checkbox" name="SecilenHobiler" value="JavaScript"> JavaScript</label>
+                <label><input type="checkbox" name="SecilenHobiler" value="C#"> C#</label>
+                <label><input type="checkbox" name="SecilenHobiler" value="SQL"> SQL</label>
+                <label><input type="checkbox" name="SecilenHobiler" value="PHP"> PHP</label>
+                <label><input type="checkbox" name="SecilenHobiler" value="HTML"> HTML</label>
+                <label><input type="checkbox" name="SecilenHobiler" value="CSS"> CSS</label>
+                <label><input type="checkbox" name="SecilenHobiler" value="Bootstrap"> Bootstrap</label>
+                <label><input type="checkbox" name="SecilenHobiler" value="ASP.NET MVC"> ASP.NET MVC</label>
+            </div>
+            <span class="error-msg" id="err-hobiler">En az 1 hobi seçilmeden form gönderilemez!</span>
+        </div>
+
+        <div class="form-group">
+            <label>Profil Fotoğrafı</label>
+            <input type="file" id="profilFoto" name="ProfilFoto" accept="image/*">
+        </div>
+
+        <div class="form-group">
+            <label>Açıklama (Maksimum 200 karakter)</label>
+            <textarea id="aciklama" name="Aciklama" rows="3"></textarea>
+            <small id="charCount" class="text-muted">Kalan Karakter: 200</small>
+            <span class="error-msg" id="err-aciklama">Açıklama alanı maksimum 200 karakter olmalıdır!</span>
+        </div>
+
+        <div class="note-box">
+            💡 NOT: Yanında kırmızı yıldız (*) işareti olan alanların doldurulması zorunludur.
+        </div>
+
+        <div class="form-buttons">
+            <button type="submit" class="btn btn-save">Kaydet</button>
+            <button type="button" id="btnTemizle" class="btn btn-clear">Temizle</button>
+        </div>
+    </form>
+</div>
+
+<script>
+    // 1. KURAL: TELEFON ALANI SADECE SAYI KABUL ETSİN
+    const telefonInput = document.getElementById('telefon');
+    telefonInput.addEventListener('input', function() {
+        this.value = this.value.replace(/[^0-9]/g, '');
+    });
+
+    // 2. KURAL: MAAŞ NEGATİF GİRİLEMESİN
+    const maasInput = document.getElementById('maas');
+    maasInput.addEventListener('input', function() {
+        if(this.value < 0 || this.value === "") this.value = 0;
+    });
+
+    // 3. KURAL: AD VE SOYAD ALANININ İLK HARFİ BÜYÜK OLSUN
+    function ilkHarfiBuyut(inputElement) {
+        inputElement.addEventListener('blur', function() {
+            let val = this.value.trim();
+            if(val.length > 0) {
+                this.value = val.charAt(0).toUpperCase() + val.slice(1);
+            }
+        });
+    }
+    ilkHarfiBuyut(document.getElementById('ad'));
+    ilkHarfiBuyut(document.getElementById('soyad'));
+
+    // 4. KURAL: AÇIKLAMA ALANI MAKSİMUM 200 KARAKTER
+    const aciklamaText = document.getElementById('aciklama');
+    const charCountLabel = document.getElementById('charCount');
+    aciklamaText.addEventListener('input', function() {
+        let maxLen = 200;
+        if (this.value.length > maxLen) {
+            this.value = this.value.substring(0, maxLen);
+        }
+        let remaining = maxLen - this.value.length;
+        charCountLabel.innerText = "Kalan Karakter: " + remaining;
+    });
+
+    // 5. TÜM ZORUNLU ALANLAR DOLDURULMADAN FORM GÖNDERİLMESİN
+    document.getElementById('personelForm').addEventListener('submit', function(e) {
+        let isValid = true;
+
+        document.querySelectorAll('.error-msg').forEach(el => el.style.display = 'none');
+
+        function alanKontrol(id, errId) {
+            const input = document.getElementById(id);
+            if (!input.value || input.value.trim() === "") {
+                document.getElementById(errId).style.display = 'block';
+                isValid = false;
+            }
+        }
+
+        alanKontrol('ad', 'err-ad');
+        alanKontrol('soyad', 'err-soyad');
+        alanKontrol('email', 'err-email');
+        alanKontrol('telefon', 'err-telefon');
+        alanKontrol('cinsiyet', 'err-cinsiyet');
+        alanKontrol('medeniDurum', 'err-medeniDurum');
+        alanKontrol('departman', 'err-departman');
+        alanKontrol('pozisyon', 'err-pozisyon');
+        alanKontrol('calismaSekli', 'err-calismaSekli');
+
+        // KURAL: ŞEHİR SEÇİLMEDEN KAYIT YAPILMASIN
+        alanKontrol('sehir', 'err-sehir');
+
+        // KURAL: ŞİFRE EN AZ 6 KARAKTER OLSUN
+        const sifre = document.getElementById('sifre').value;
+        if (sifre.length < 6) {
+            document.getElementById('err-sifre').style.display = 'block';
+            isValid = false;
+        }
+
+        // KURAL: ŞİFRE VE ŞİFRE TEKRAR AYNI OLMALIDIR
+        const sifreTekrar = document.getElementById('sifreTekrar').value;
+        if (sifre !== sifreTekrar) {
+            document.getElementById('err-sifreTekrar').style.display = 'block';
+            isValid = false;
+        }
+
+        // KURAL: GELECEK TARİH SEÇİLEMESİN
+        const bugun = new Date().toISOString().split('T')[0];
+        const dogum = document.getElementById('dogumTarihi').value;
+        const iseGiris = document.getElementById('iseGirisTarihi').value;
+
+        if (!dogum || dogum > bugun) {
+            document.getElementById('err-dogumTarihi').style.display = 'block';
+            isValid = false;
+        }
+        if (!iseGiris || iseGiris > bugun) {
+            document.getElementById('err-iseGirisTarihi').style.display = 'block';
+            isValid = false;
+        }
+
+        // KURAL: EN AZ 1 HOBİ SEÇİLMEDEN GÖNDERİLMESİN
+        const hobiler = document.querySelectorAll('input[name="SecilenHobiler"]:checked');
+        if (hobiler.length === 0) {
+            document.getElementById('err-hobiler').style.display = 'block';
+            isValid = false;
+        }
+
+        if (!isValid) {
+            e.preventDefault();
+            alert("Lütfen formu göndermeden önce eksik veya hatalı alanları düzeltin!");
+        }
+    });
+
+    document.getElementById('btnTemizle').addEventListener('click', function() {
+        document.getElementById('personelForm').reset();
+        document.querySelectorAll('.error-msg').forEach(el => el.style.display = 'none');
+        charCountLabel.innerText = "Kalan Karakter: 200";
+    });
+</script>

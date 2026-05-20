@@ -1,0 +1,129 @@
+﻿@{
+    ViewData["Title"] = "Hizmetlerimiz ve Fiyat Listesi";
+}
+
+<style>
+    .price-card {
+        background: white;
+        border: none;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        transition: transform 0.3s ease;
+        margin-bottom: 20px;
+    }
+
+        .price-card:hover {
+            transform: scale(1.02);
+        }
+
+    body.dark-mode .price-card {
+        background: #1e1e1e !important;
+        color: white !important;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+    }
+
+    .price-tag {
+        font-size: 24px;
+        font-weight: bold;
+        color: #28a745;
+    }
+
+    body.dark-mode .price-tag {
+        color: #2ecc71;
+    }
+
+    .service-title {
+        color: #6a11cb;
+        font-weight: bold;
+    }
+
+    body.dark-mode .service-title {
+        color: #b175ff;
+    }
+</style>
+
+<div class="container mt-4">
+    <div class="text-center mb-5">
+        <h2 class="fw-bold text-dark">✂️ Hizmetlerimiz & Fiyat Listesi</h2>
+        <p class="text-muted">Salonumuzda verilen profesyonel hizmetler ve güncel fiyat tarifesi.</p>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <h4 class="mb-3 service-title">🔹 Saç Tasarım & Kesim</h4>
+
+            <div class="card p-3 price-card d-flex flex-row justify-content-between align-items-center">
+                <div>
+                    <h6 class="fw-bold mb-1">Modern Saç Kesimi & Stil Danışmanlığı</h6>
+                    <small class="text-muted">Yıkama ve fön dahil</small>
+                </div>
+                <div class="price-tag">350 TL</div>
+            </div>
+
+            <div class="card p-3 price-card d-flex flex-row justify-content-between align-items-center">
+                <div>
+                    <h6 class="fw-bold mb-1">Fön & Şekillendirme</h6>
+                    <small class="text-muted">Düz, kırık veya dalgalı seçenekleriyle</small>
+                </div>
+                <div class="price-tag">150 TL</div>
+            </div>
+
+            <div class="card p-3 price-card d-flex flex-row justify-content-between align-items-center">
+                <div>
+                    <h6 class="fw-bold mb-1">Profesyonel Saç Boyama</h6>
+                    <small class="text-muted">Bitkisel ve kaliteli tüp boya uygulaması</small>
+                </div>
+                <div class="price-tag">850 TL</div>
+            </div>
+
+            <div class="card p-3 price-card d-flex flex-row justify-content-between align-items-center">
+                <div>
+                    <h6 class="fw-bold mb-1">Ombre / Sombre</h6>
+                    <small class="text-muted">Uzman renklendirme kadromuzla</small>
+                </div>
+                <div class="price-tag">1.800 TL</div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <h4 class="mb-3 service-title">🔸 Bakım & Estetik</h4>
+
+            <div class="card p-3 price-card d-flex flex-row justify-content-between align-items-center">
+                <div>
+                    <h6 class="fw-bold mb-1">Keratin Bakımı & Brezilya Fönü</h6>
+                    <small class="text-muted">Yıpranmış saçlar için yoğun onarım</small>
+                </div>
+                <div class="price-tag">1.200 TL</div>
+            </div>
+
+            <div class="card p-3 price-card d-flex flex-row justify-content-between align-items-center">
+                <div>
+                    <h6 class="fw-bold mb-1">Manikür & Pedikür</h6>
+                    <small class="text-muted">Steril ekipmanlarla tırnak bakımı</small>
+                </div>
+                <div class="price-tag">400 TL</div>
+            </div>
+
+            <div class="card p-3 price-card d-flex flex-row justify-content-between align-items-center">
+                <div>
+                    <h6 class="fw-bold mb-1">Profesyonel Makyaj</h6>
+                    <small class="text-muted">Porselen ve günlük makyaj seçenekleri</small>
+                </div>
+                <div class="price-tag">700 TL</div>
+            </div>
+
+            <div class="card p-3 price-card d-flex flex-row justify-content-between align-items-center">
+                <div>
+                    <h6 class="fw-bold mb-1">Cilt Bakımı & Maske</h6>
+                    <small class="text-muted">Gözenek temizleme ve nemlendirme</small>
+                </div>
+                <div class="price-tag">500 TL</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="text-center mt-5">
+        <p class="text-muted">Beğendiğiniz hizmet için hemen yerinizi ayırtın.</p>
+        <a asp-controller="Randevu" asp-action="Index" class="btn btn-primary btn-lg fw-bold shadow">📅 Randevu Takvimine Git</a>
+    </div>
+</div>

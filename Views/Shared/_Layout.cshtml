@@ -1,0 +1,162 @@
+﻿<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - kuaförSistemiiii</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/kuaförSistemiiii.styles.css" asp-append-version="true" />
+
+    <!-- Gece Modu için Ekstra CSS Style Alanı -->
+    <style>
+        /* Karanlık Mod Teması (Tüm Sitede Geçerli) */
+        body.dark-mode {
+            background-color: #121212 !important;
+            color: #ffffff !important;
+        }
+            /* Navbar Karanlık Mod */
+            body.dark-mode .navbar {
+                background-color: #1e1e1e !important;
+                border-bottom: 1px solid #333 !important;
+            }
+
+            body.dark-mode .navbar-brand,
+            body.dark-mode .nav-link {
+                color: #ffffff !important;
+            }
+            /* Kartlar ve Formlar Karanlık Mod */
+            body.dark-mode .card,
+            body.dark-mode .modal-content {
+                background-color: #1e1e1e !important;
+                color: #ffffff !important;
+                border: 1px solid #333;
+            }
+
+            body.dark-mode input,
+            body.dark-mode textarea,
+            body.dark-mode select {
+                background-color: #2d2d2d !important;
+                color: #ffffff !important;
+                border: 1px solid #444 !important;
+            }
+
+                body.dark-mode input:focus,
+                body.dark-mode textarea:focus {
+                    background-color: #333 !important;
+                    color: #ffffff !important;
+                }
+            /* Takvim Alanı Karanlık Mod */
+            body.dark-mode #calendar {
+                background-color: #1e1e1e !important;
+                color: #ffffff !important;
+            }
+
+            body.dark-mode .fc-list,
+            body.dark-mode .fc-col-header-cell,
+            body.dark-mode .fc-timegrid-slot,
+            body.dark-mode .fc-timegrid-axis {
+                background-color: #1e1e1e !important;
+                color: #ffffff !important;
+            }
+
+            body.dark-mode .fc-theme-standard td,
+            body.dark-mode .fc-theme-standard th {
+                border: 1px solid #333 !important;
+            }
+
+            body.dark-mode .text-dark {
+                color: #ffffff !important;
+            }
+            /* Footer Karanlık Mod */
+            body.dark-mode footer {
+                background-color: #121212 !important;
+                border-top: 1px solid #333 !important;
+                color: #aaa !important;
+            }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container-fluid">
+                <a class="navbar-brand fw-bold text-primary" asp-area="" asp-controller="Home" asp-action="Index">kuaförSistemiiii</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Ana Sayfa</a>
+                        </li>
+                        <!-- PERSONEL KAYIT BUTONU -->
+                        <li class="nav-item">
+                            <a class="nav-link text-dark fw-bold" asp-area="" asp-controller="Personel" asp-action="KayitFormu">✂️ Personel Kayıt Formu</a>
+                        </li>
+                        <!-- RANDEVU TAKVİMİ BUTONU -->
+                        <li class="nav-item">
+                            <a class="nav-link text-dark fw-bold" asp-area="" asp-controller="Randevu" asp-action="Index">📅 Randevu Takvimi</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">✨ Hizmetlerimiz</a>
+                        </li>
+                        <li class="nav-item">
+    <a class="nav-link text-dark fw-bold" asp-area="" asp-controller="Home" asp-action="Portfolyo">📁 Portfolyo</a>
+</li>
+                    </ul>
+
+                    <!-- GECE / GÜNDÜZ MODU DEĞİŞTİRME BUTONU -->
+                    <button id="darkModeToggle" class="btn btn-outline-secondary btn-sm ms-auto">
+                        🌙 Gece Modu
+                    </button>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2026 - kuaförSistemiiii - <a asp-area="" asp-controller="Home" asp-action="Privacy">Gizlilik</a>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    <!-- Gece Modu Geçiş Scripti (Hafızalı) -->
+    <script>
+        const toggleBtn = document.getElementById('darkModeToggle');
+        const body = document.body;
+
+        // Sayfa ilk açıldığında hafızada gece modu var mı kontrol et
+        if (localStorage.getItem('theme') === 'dark') {
+            body.classList.add('dark-mode');
+            toggleBtn.innerHTML = '☀️ Gündüz Modu';
+            toggleBtn.classList.replace('btn-outline-secondary', 'btn-outline-warning');
+        }
+
+        // Butona tıklandığında çalışacak fonksiyon
+        toggleBtn.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+
+            if (body.classList.contains('dark-mode')) {
+                localStorage.setItem('theme', 'dark'); // Hafızaya kaydet
+                toggleBtn.innerHTML = '☀️ Gündüz Modu';
+                toggleBtn.classList.replace('btn-outline-secondary', 'btn-outline-warning');
+            } else {
+                localStorage.setItem('theme', 'light'); // Hafızaya kaydet
+                toggleBtn.innerHTML = '🌙 Gece Modu';
+                toggleBtn.classList.replace('btn-outline-warning', 'btn-outline-secondary');
+            }
+        });
+    </script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
